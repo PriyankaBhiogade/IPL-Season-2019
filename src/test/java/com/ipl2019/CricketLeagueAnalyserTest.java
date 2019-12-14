@@ -1,5 +1,6 @@
 package com.ipl2019;
 
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -81,4 +82,15 @@ public class CricketLeagueAnalyserTest {
         }
     }
 
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnAvg() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyser.StatesticFields.AVERAGE);
+            IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
+            Assert.assertEquals("MS Dhoni", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }
