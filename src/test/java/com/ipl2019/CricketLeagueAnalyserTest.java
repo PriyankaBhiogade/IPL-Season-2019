@@ -5,12 +5,30 @@ import org.junit.Test;
 
 public class CricketLeagueAnalyserTest {
 
-    private static final String IPL_MOST_RUNS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
+    private static final String IPL_RUNS_CSV_FILE_PATH = "IPL2019FactsheetMostRuns.csv";
+    private static final String IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE = "IPL2019FactsheetMostRuns123.csv";
+    private static final String IPL_RUNS_CSV_FILE_PATH_WITH_DELIMITER_ERR = "IPL2019FactsheetMostRunsWithDelimiterError.csv";
+    private static final String IPL_RUNS_CSV_FILE_PATH_WITH_HEADER_ERR = "IPL2019FactsheetMostRunsWithHeaderError.csv";
+    private static final String EMPTY_FILE_PATH = "EmptyFile.csv";
+    private static final String IPL_WKTS_CSV_FILE_PATH = "IPL2019FactsheetMostWkts.csv";
 
     @Test
-    public void givenCricketLeagueRunsCsvFile_WhenCorrectRecord_ShouldReturnRecordCount () throws CricketLeagueAnalyserException {
+    public void givenCricketLeagueRunsCsvFile_WhenCorrectRecord_ShouldReturnRecordCount() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            int numOFRecord = iplAnalyser.loadILPData(IPL_RUNS_CSV_FILE_PATH);
+            Assert.assertEquals(101, numOFRecord);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileIsWrong_ShouldThrowingException() {
         CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-        int numOFRecord = iplAnalyser.loadILPData(IPL_MOST_RUNS_CSV_FILE_PATH);
-        Assert.assertEquals(101,numOFRecord);
+        try {
+            iplAnalyser.loadILPData(IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
     }
 }
