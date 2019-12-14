@@ -12,4 +12,5 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile(files("/home/admin1/Desktop/CSVBuilderJarFile/out/artifacts/CSVBuilderJarFile_main_jar/CSVBuilderJarFile.main.jar"))
 }
