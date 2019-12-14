@@ -26,7 +26,11 @@ public class CricketLeagueAnalyser {
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         } catch (CSVBuilderException e) {
-            throw new CricketLeagueAnalyserException(e.getMessage(), CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER);
+            throw new CricketLeagueAnalyserException(e.getMessage(),
+                    CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER);
+        } catch (RuntimeException e) {
+            throw new CricketLeagueAnalyserException(e.getMessage(),
+                    CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE);
         }
     }
 }
