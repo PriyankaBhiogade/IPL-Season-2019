@@ -9,19 +9,17 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class CricketLeagueAnalyser {
     public int loadILPData(String csvFilePath) throws CricketLeagueAnalyserException {
         try {
-            int counter = 0;
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IPLRunsCSV> csvFileIterator = csvBuilder.getCsvFileIterator(reader, IPLRunsCSV.class);
-            while (csvFileIterator.hasNext()) {
-                csvFileIterator.next();
-                counter++;
-            }
-            return counter;
+            Iterable<IPLRunsCSV> csvIterable = () -> csvFileIterator;
+            return (int) StreamSupport.stream(csvIterable.spliterator(), false)
+                    .count();
         } catch (IOException e) {
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);

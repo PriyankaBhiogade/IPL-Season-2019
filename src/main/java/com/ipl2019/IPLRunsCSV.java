@@ -13,6 +13,9 @@ public class IPLRunsCSV {
     @CsvBindByName(column = "Avg")
     public double avg;
 
+    @CsvBindByName(column = "6s",required = true)
+    public int six;
+
     public IPLRunsCSV() {
     }
 }
