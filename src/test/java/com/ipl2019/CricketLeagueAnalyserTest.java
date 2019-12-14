@@ -93,4 +93,16 @@ public class CricketLeagueAnalyserTest {
         } catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnTopStrikingRate() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyser.StatesticFields.STRIKING_RATE);
+            IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
+            Assert.assertEquals("Ishant Sharma", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }
