@@ -42,4 +42,14 @@ public class CricketLeagueAnalyserTest {
         }
     }
 
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenHeaderIssue_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(IPL_RUNS_CSV_FILE_PATH_WITH_HEADER_ERR);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER, e.type);
+        }
+    }
+
 }
