@@ -143,10 +143,10 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_WhenFileIsWrong_ShouldThrowException() {
         CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
         try {
-            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.loadILPData(EMPTY_FILE_PATH);
             iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.STRIKING_RATE);
         } catch (CricketLeagueAnalyserException e) {
-            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE, e.type);
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER, e.type);
         }
     }
 
@@ -176,7 +176,7 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_SortBySixAndFour_WhenFileIsWrong_ShouldThrowingException() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.loadILPData(IPL_RUNS_CSV_FILE_PATH_WITH_DELIMITER_ERR);
         } catch (CricketLeagueAnalyserException e) {
             Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE, e.type);
         }
@@ -186,11 +186,53 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_SortBySixAndFour_WhenFileIsNotLoaded_ShouldReturnMaxSixthAndFours() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR);
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileIsCorrect_ShouldReturnBestStrikingRateWithMaxSixthAndFour() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.BEST_STRIKING_RATE_WITH_SIX_AND_FOUR);
             IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
             Assert.assertEquals("Andre Russell", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortByBestStrikingRate_WhenFileIsWrong_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortByBestStrikingRate__WhenFileIsNotLoaded_ShouldReturnMaxSixthAndFours() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.BEST_STRIKING_RATE_WITH_SIX_AND_FOUR);
+        } catch (CricketLeagueAnalyserException e) {
             Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileIsCorrect_ShouldReturnBestAvgWithBestStrikingRate() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.BEST_AVG_WITH_BEST_STRIKING);
+            IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
+            Assert.assertEquals("MS Dhoni", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
         }
     }
 }
