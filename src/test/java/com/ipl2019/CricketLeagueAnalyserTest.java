@@ -245,4 +245,26 @@ public class CricketLeagueAnalyserTest {
             Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
         }
     }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileIsCorrect_ShouldReturnMaxRunsWithBestAvg() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_RUN_WITH_BEST_AVG);
+            IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
+            Assert.assertEquals("David Warner ", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortByMaxRunWithBestAvg_WhenFileIsNotLoaded_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_RUN_WITH_BEST_AVG);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
 }
