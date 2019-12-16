@@ -267,4 +267,15 @@ public class CricketLeagueAnalyserTest {
             Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
         }
     }
+
+    @Test
+    public void givenCricketLeagueWiktsCsvFile_WhenCorrectRecord_ShouldReturnRecordCount() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            Map<String, IPLRunsDAO> numOFRecord = iplAnalyser.loadILPWiktsData(IPL_WKTS_CSV_FILE_PATH);
+            Assert.assertEquals(100, numOFRecord.size());
+        } catch (CricketLeagueAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -16,4 +16,10 @@ public class IPLRunsDAO {
         this.six = runCSV.six;
         this.four = runCSV.four;
     }
+
+    public IPLRunsDAO(IPLWiktsCSV wiktsCSV) {
+        this.player = wiktsCSV.player;
+        this.battingAvg = wiktsCSV.avg;
+        this.strikeRate = wiktsCSV.strikeRate;
+    }
 }

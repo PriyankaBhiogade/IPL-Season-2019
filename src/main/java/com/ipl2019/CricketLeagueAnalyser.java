@@ -35,14 +35,38 @@ public class CricketLeagueAnalyser {
 
     public Map<String, IPLRunsDAO> loadILPData(String csvFilePath) throws CricketLeagueAnalyserException {
         iplRunMap = new HashMap<>();
-        csvFilePath = this.prepareFileData(csvFilePath);
+        String updatedCSVFilePath = this.prepareFileData(csvFilePath);
         try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+            Reader reader = Files.newBufferedReader(Paths.get(updatedCSVFilePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IPLRunsCSV> csvFileIterator = csvBuilder.getCsvFileIterator(reader, IPLRunsCSV.class);
             Iterable<IPLRunsCSV> csvIterable = () -> csvFileIterator;
             StreamSupport.stream(csvIterable.spliterator(), false)
                     .map(IPLRunsCSV.class::cast)
+                    .forEach(runCSV -> iplRunMap.put(runCSV.player, new IPLRunsDAO(runCSV)));
+        } catch (IOException e) {
+            throw new CricketLeagueAnalyserException(e.getMessage(),
+                    CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE);
+        } catch (CSVBuilderException e) {
+            throw new CricketLeagueAnalyserException(e.getMessage(),
+                    CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER);
+        } catch (RuntimeException e) {
+            throw new CricketLeagueAnalyserException(e.getMessage(),
+                    CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE);
+        }
+        return iplRunMap;
+    }
+
+    public Map<String, IPLRunsDAO> loadILPWiktsData(String csvFilePath) throws CricketLeagueAnalyserException {
+        iplRunMap = new HashMap<>();
+        String updatedCSVFilePath = this.prepareFileData(csvFilePath);
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get(updatedCSVFilePath));
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IPLWiktsCSV> csvFileIterator = csvBuilder.getCsvFileIterator(reader, IPLWiktsCSV.class);
+            Iterable<IPLWiktsCSV> csvIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvIterable.spliterator(), false)
+                    .map(IPLWiktsCSV.class::cast)
                     .forEach(runCSV -> iplRunMap.put(runCSV.player, new IPLRunsDAO(runCSV)));
         } catch (IOException e) {
             throw new CricketLeagueAnalyserException(e.getMessage(),
