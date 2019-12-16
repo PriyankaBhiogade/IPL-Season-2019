@@ -2,7 +2,7 @@ package com.ipl2019;
 
 import java.util.Comparator;
 
-public class SortMethod implements Comparator<IPLRunsDAO> {
+public class ComparingFields implements Comparator<IPLRunsDAO> {
 
     @Override
     public int compare(IPLRunsDAO mostRun1, IPLRunsDAO mostRun2) {

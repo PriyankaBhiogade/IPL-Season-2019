@@ -25,7 +25,7 @@ public class CricketLeagueAnalyser {
         this.sortBy = new HashMap<>();
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.STRIKING_RATE, Comparator.comparing(census -> census.strikeRate, Comparator.reverseOrder()));
-        this.sortBy.put(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR,new SortMethod().reversed());
+        this.sortBy.put(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR,new ComparingFields().reversed());
     }
 
     public Map<String, IPLRunsDAO> loadILPData(String csvFilePath) throws CricketLeagueAnalyserException {
