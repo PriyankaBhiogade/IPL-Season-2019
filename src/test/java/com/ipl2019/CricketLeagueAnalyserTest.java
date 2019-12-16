@@ -19,7 +19,19 @@ public class CricketLeagueAnalyserTest {
     @Test
     public void givenCricketLeagueRunsCsvFile_WhenCorrect_ShouldReturnNewFile() {
         CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-        iplAnalyser.prepareFileData(OLD_IPL_RUNS_CSV_FILE_PATH);
+        try {
+            iplAnalyser.prepareFileData(OLD_IPL_RUNS_CSV_FILE_PATH);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileIsWrong_ShouldReturnNewFile() {
+        CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+        try {
+            iplAnalyser.prepareFileData(IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE);
+        } catch (CricketLeagueAnalyserException e) {
+        }
     }
 
     @Test
@@ -87,10 +99,31 @@ public class CricketLeagueAnalyserTest {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
             iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
-            String sortedData = iplAnalyser.getSortData(CricketAnalyser.StatesticFields.AVERAGE);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.AVERAGE);
             IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
             Assert.assertEquals("MS Dhoni", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileWrong_ShouldThrowingException() {
+        CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+        try {
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.AVERAGE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileNotLoaded_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.AVERAGE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
         }
     }
 
@@ -99,10 +132,65 @@ public class CricketLeagueAnalyserTest {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
             iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
-            String sortedData = iplAnalyser.getSortData(CricketAnalyser.StatesticFields.STRIKING_RATE);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.STRIKING_RATE);
             IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
             Assert.assertEquals("Ishant Sharma", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileIsWrong_ShouldThrowException() {
+        CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+        try {
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.STRIKING_RATE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_WhenFileNotLoaded_ShouldThrowException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.STRIKING_RATE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortBySixAndFour_WhenFileCorrect_ShouldReturnMaxSixthAndFours() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR);
+            IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
+            Assert.assertEquals("Andre Russell", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortBySixAndFour_WhenFileIsWrong_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortBySixAndFour_WhenFileIsNotLoaded_ShouldReturnMaxSixthAndFours() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR);
+            IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
+            Assert.assertEquals("Andre Russell", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
         }
     }
 }
