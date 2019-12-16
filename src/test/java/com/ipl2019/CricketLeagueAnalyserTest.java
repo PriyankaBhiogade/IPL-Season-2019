@@ -235,4 +235,14 @@ public class CricketLeagueAnalyserTest {
         } catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenCricketLeagueRunsCsvFile_SortByBestAvgWithStrikingRate__WhenFileIsNotLoaded_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.BEST_AVG_WITH_BEST_STRIKING);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
 }
