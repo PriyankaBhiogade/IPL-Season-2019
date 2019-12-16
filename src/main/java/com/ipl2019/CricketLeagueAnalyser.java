@@ -18,15 +18,14 @@ import static java.util.stream.Collectors.toCollection;
 
 public class CricketLeagueAnalyser {
 
-    Map<CricketAnalyserENUM.StatesticFields, Comparator<IPLRunsDAO>> sortBy = null;
+    Map<CricketAnalyserENUM.StatisticFields, Comparator<IPLRunsDAO>> sortBy = null;
     Map<String, IPLRunsDAO> iplRunMap = null;
 
     public CricketLeagueAnalyser() {
         this.sortBy = new HashMap<>();
-        this.sortBy.put(CricketAnalyserENUM.StatesticFields.AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
-        this.sortBy.put(CricketAnalyserENUM.StatesticFields.STRIKING_RATE, Comparator.comparing(census -> census.strikeRate, Comparator.reverseOrder()));
-        this.sortBy.put(CricketAnalyserENUM.StatesticFields.AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
-
+        this.sortBy.put(CricketAnalyserENUM.StatisticFields.AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
+        this.sortBy.put(CricketAnalyserENUM.StatisticFields.STRIKING_RATE, Comparator.comparing(census -> census.strikeRate, Comparator.reverseOrder()));
+        this.sortBy.put(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR,new SortMethod().reversed());
     }
 
     public Map<String, IPLRunsDAO> loadILPData(String csvFilePath) throws CricketLeagueAnalyserException {
@@ -52,7 +51,7 @@ public class CricketLeagueAnalyser {
         return iplRunMap;
     }
 
-    public void prepareFileData(String filePath) {
+    public void prepareFileData(String filePath) throws CricketLeagueAnalyserException {
         String searchFor = "-";
         String replaceWith = "0";
         String IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/NewIPL2019FactsheetMostRuns.csv";
@@ -62,11 +61,12 @@ public class CricketLeagueAnalyser {
                     .collect(Collectors.toList());
             Files.write(Paths.get(IPL_RUNS_CSV_FILE_PATH), replaced);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CricketLeagueAnalyserException(e.getMessage(),
+                    CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE);
         }
     }
 
-    public String getSortData(CricketAnalyserENUM.StatesticFields field) throws CricketLeagueAnalyserException {
+    public String getSortData(CricketAnalyserENUM.StatisticFields field) throws CricketLeagueAnalyserException {
         if (iplRunMap == null || iplRunMap.size() == 0) {
             throw new CricketLeagueAnalyserException("No Census Data",
                     CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND);
