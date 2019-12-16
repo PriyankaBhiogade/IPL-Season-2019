@@ -3,13 +3,17 @@ package com.ipl2019;
 public class IPLRunsDAO {
     public String player;
     public int run;
-    public double avg;
+    public double battingAvg;
     public double strikeRate;
+    public int six;
+    public int four;
 
     public IPLRunsDAO(IPLRunsCSV runCSV) {
         this.player = runCSV.player;
         this.run = runCSV.run;
-        this.avg = runCSV.avg;
+        this.battingAvg = runCSV.avg;
         this.strikeRate = runCSV.strikeRate;
+        this.six = runCSV.six;
+        this.four = runCSV.four;
     }
 }

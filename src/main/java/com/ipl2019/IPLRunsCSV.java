@@ -16,6 +16,9 @@ public class IPLRunsCSV {
     @CsvBindByName(column = "6s",required = true)
     public int six;
 
+    @CsvBindByName(column = "4s",required = true)
+    public int four;
+
     @CsvBindByName(column = "SR",required = true)
     public double strikeRate;
 
