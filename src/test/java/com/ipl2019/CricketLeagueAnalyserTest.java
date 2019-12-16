@@ -9,7 +9,6 @@ import java.util.Map;
 public class CricketLeagueAnalyserTest {
 
     private static final String OLD_IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
-    private static final String NEW_IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/NewIPL2019FactsheetMostRuns.csv";
     private static final String IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE = "IPL2019FactsheetMostRuns123.csv";
     private static final String IPL_RUNS_CSV_FILE_PATH_WITH_DELIMITER_ERR = "./src/test/resources/IPL2019FactsheetMostRunsWithDelimiterErr.csv";
     private static final String IPL_RUNS_CSV_FILE_PATH_WITH_HEADER_ERR = "./src/test/resources/IPL2019FactsheetMostRunsWithHeaderError.csv";
@@ -31,6 +30,7 @@ public class CricketLeagueAnalyserTest {
         try {
             iplAnalyser.prepareFileData(IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE);
         } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE, e.type);
         }
     }
 
@@ -38,7 +38,7 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_WhenCorrectRecord_ShouldReturnRecordCount() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            Map<String, IPLRunsDAO> numOFRecord = iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            Map<String, IPLRunsDAO> numOFRecord = iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
             Assert.assertEquals(100, numOFRecord.size());
         } catch (CricketLeagueAnalyserException e) {
         }
@@ -98,7 +98,7 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnAvg() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.AVERAGE);
             IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
             Assert.assertEquals("MS Dhoni", censusCSV[0].player);
@@ -131,7 +131,7 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnTopStrikingRate() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.STRIKING_RATE);
             IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
             Assert.assertEquals("Ishant Sharma", censusCSV[0].player);
@@ -164,7 +164,7 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueRunsCsvFile_SortBySixAndFour_WhenFileCorrect_ShouldReturnMaxSixthAndFours() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            iplAnalyser.loadILPData(NEW_IPL_RUNS_CSV_FILE_PATH);
+            iplAnalyser.loadILPData(OLD_IPL_RUNS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR);
             IPLRunsCSV[] censusCSV = new Gson().fromJson(sortedData, IPLRunsCSV[].class);
             Assert.assertEquals("Andre Russell", censusCSV[0].player);

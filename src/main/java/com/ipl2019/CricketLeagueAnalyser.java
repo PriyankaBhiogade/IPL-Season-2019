@@ -30,6 +30,7 @@ public class CricketLeagueAnalyser {
 
     public Map<String, IPLRunsDAO> loadILPData(String csvFilePath) throws CricketLeagueAnalyserException {
         iplRunMap = new HashMap<>();
+        csvFilePath = this.prepareFileData(csvFilePath);
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
@@ -51,7 +52,7 @@ public class CricketLeagueAnalyser {
         return iplRunMap;
     }
 
-    public void prepareFileData(String filePath) throws CricketLeagueAnalyserException {
+    public String prepareFileData(String filePath) throws CricketLeagueAnalyserException {
         String searchFor = "-";
         String replaceWith = "0";
         String IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/NewIPL2019FactsheetMostRuns.csv";
@@ -60,6 +61,7 @@ public class CricketLeagueAnalyser {
                     .map(line -> line.replaceAll(searchFor, replaceWith))
                     .collect(Collectors.toList());
             Files.write(Paths.get(IPL_RUNS_CSV_FILE_PATH), replaced);
+            return IPL_RUNS_CSV_FILE_PATH;
         } catch (IOException e) {
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE);
