@@ -8,7 +8,10 @@ public class IPLRunsDAO {
     public int six;
     public int four;
 
-    public IPLRunsDAO(IPLRunsCSV runCSV) {
+    public IPLRunsDAO() {
+    }
+
+    public  IPLRunsDAO(IPLRunsCSV runCSV) {
         this.player = runCSV.player;
         this.run = runCSV.run;
         this.battingAvg = runCSV.avg;

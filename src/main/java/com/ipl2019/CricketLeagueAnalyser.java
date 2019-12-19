@@ -23,6 +23,7 @@ public class CricketLeagueAnalyser {
 
     public CricketLeagueAnalyser() {
         this.sortBy = new HashMap<>();
+        this.iplRunMap =new HashMap<>();
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.STRIKING_RATE, Comparator.comparing(data -> data.strikeRate, Comparator.reverseOrder()));
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR, new ComparingFields().reversed());
@@ -33,41 +34,32 @@ public class CricketLeagueAnalyser {
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.MAX_RUN_WITH_BEST_AVG, comp1.thenComparing(data -> data.battingAvg, Comparator.reverseOrder()));
     }
 
-    public Map<String, IPLRunsDAO> loadILPData(String csvFilePath) throws CricketLeagueAnalyserException {
-        iplRunMap = new HashMap<>();
-        String updatedCSVFilePath = this.prepareFileData(csvFilePath);
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(updatedCSVFilePath));
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IPLRunsCSV> csvFileIterator = csvBuilder.getCsvFileIterator(reader, IPLRunsCSV.class);
-            Iterable<IPLRunsCSV> csvIterable = () -> csvFileIterator;
-            StreamSupport.stream(csvIterable.spliterator(), false)
-                    .map(IPLRunsCSV.class::cast)
-                    .forEach(runCSV -> iplRunMap.put(runCSV.player, new IPLRunsDAO(runCSV)));
-        } catch (IOException e) {
-            throw new CricketLeagueAnalyserException(e.getMessage(),
-                    CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE);
-        } catch (CSVBuilderException e) {
-            throw new CricketLeagueAnalyserException(e.getMessage(),
-                    CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER);
-        } catch (RuntimeException e) {
-            throw new CricketLeagueAnalyserException(e.getMessage(),
-                    CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE);
-        }
-        return iplRunMap;
+    public int loadIPLRunsData(String csvFilePath) throws CricketLeagueAnalyserException {
+        iplRunMap = this.loadData(csvFilePath, IPLRunsCSV.class);
+        return iplRunMap.size();
     }
 
-    public Map<String, IPLRunsDAO> loadILPWiktsData(String csvFilePath) throws CricketLeagueAnalyserException {
-        iplRunMap = new HashMap<>();
-        String updatedCSVFilePath = this.prepareFileData(csvFilePath);
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(updatedCSVFilePath));
+    public int loadILPWiktsData(String csvFilePath) throws CricketLeagueAnalyserException {
+        iplRunMap = this.loadData(csvFilePath, IPLWiktsCSV.class);
+        return  iplRunMap.size();
+    }
+
+    private <E> Map<String, IPLRunsDAO> loadData(String csvFilePath, Class<E> iplCSVClass) throws CricketLeagueAnalyserException {
+        String updatedFile = this.prepareFileData(csvFilePath);
+        try (Reader reader = Files.newBufferedReader(Paths.get(updatedFile))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IPLWiktsCSV> csvFileIterator = csvBuilder.getCsvFileIterator(reader, IPLWiktsCSV.class);
-            Iterable<IPLWiktsCSV> csvIterable = () -> csvFileIterator;
-            StreamSupport.stream(csvIterable.spliterator(), false)
-                    .map(IPLWiktsCSV.class::cast)
-                    .forEach(runCSV -> iplRunMap.put(runCSV.player, new IPLRunsDAO(runCSV)));
+            Iterator<E> csvFileIterator = csvBuilder.getCsvFileIterator(reader, iplCSVClass);
+            Iterable<E> csvIterable = () -> csvFileIterator;
+            if (iplCSVClass.getName().equals("com.ipl2019.IPLRunsCSV")) {
+                StreamSupport.stream(csvIterable.spliterator(), false)
+                        .map(IPLRunsCSV.class::cast)
+                        .forEach(iplCSV -> iplRunMap.put(iplCSV.player, new IPLRunsDAO(iplCSV)));
+            } else if (iplCSVClass.getName().equals("com.ipl2019.IPLWiktsCSV")) {
+                StreamSupport.stream(csvIterable.spliterator(), false)
+                        .map(IPLWiktsCSV.class::cast)
+                        .forEach(iplCSV -> iplRunMap.put(iplCSV.player, new IPLRunsDAO(iplCSV)));
+            }
+            return iplRunMap;
         } catch (IOException e) {
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.NO_SUCH_FILE);
@@ -75,15 +67,15 @@ public class CricketLeagueAnalyser {
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER);
         } catch (RuntimeException e) {
+            e.printStackTrace();
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE);
         }
-        return iplRunMap;
     }
 
     public String prepareFileData(String filePath) throws CricketLeagueAnalyserException {
         String searchFor = "-";
-        String replaceWith = "0";
+        String replaceWith = "0.0";
         String IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/NewIPL2019FactsheetMostRuns.csv";
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             List<String> replaced = lines
