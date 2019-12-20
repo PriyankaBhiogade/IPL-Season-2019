@@ -13,6 +13,9 @@ public class IPLBowlerCSV {
     @CsvBindByName(column = "SR")
     public double strikeRate;
 
+    @CsvBindByName(column = "Econ")
+    public double economy;
+
     public IPLBowlerCSV() {
     }
 }

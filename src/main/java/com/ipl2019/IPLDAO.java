@@ -8,6 +8,7 @@ public class IPLDAO {
     public int six;
     public int four;
     public double bowlingAvg;
+    public double economy;
 
     public IPLDAO(IPLBatsmanCSV runCSV) {
         this.player = runCSV.player;
@@ -23,6 +24,6 @@ public class IPLDAO {
         this.battingAvg = wiktsCSV.avg;
         this.strikeRate = wiktsCSV.strikeRate;
         this.bowlingAvg = wiktsCSV.avg;
-
+        this.economy = wiktsCSV.economy;
     }
 }
