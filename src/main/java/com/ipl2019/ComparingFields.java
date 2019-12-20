@@ -2,10 +2,10 @@ package com.ipl2019;
 
 import java.util.Comparator;
 
-public class ComparingFields implements Comparator<IPLRunsDAO> {
+public class ComparingFields implements Comparator<IPLDAO> {
 
     @Override
-    public int compare(IPLRunsDAO mostRun1, IPLRunsDAO mostRun2) {
+    public int compare(IPLDAO mostRun1, IPLDAO mostRun2) {
         return ((mostRun1.six * 6) + (mostRun1.four * 4)) - ((mostRun2.six * 6) + (mostRun2.four * 4));
     }
 }
