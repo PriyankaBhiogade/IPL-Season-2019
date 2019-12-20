@@ -15,7 +15,7 @@ public class CricketLeagueAnalyser {
     public CricketLeagueAnalyser() {
         this.sortBy = new HashMap<>();
         this.iplRunMap = new HashMap<>();
-        this.sortBy.put(SortingEnums.StatisticFields.Batting_AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
+        this.sortBy.put(SortingEnums.StatisticFields.BATTING_AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
         this.sortBy.put(SortingEnums.StatisticFields.STRIKING_RATE, Comparator.comparing(data -> data.strikeRate, Comparator.reverseOrder()));
         this.sortBy.put(SortingEnums.StatisticFields.MAX_SIX_AND_FOUR, new ComparingFields().reversed());
         this.sortBy.put(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_SIX_AND_FOUR, new ComparingFields().reversed().thenComparing(data -> data.strikeRate));
@@ -23,6 +23,8 @@ public class CricketLeagueAnalyser {
         this.sortBy.put(SortingEnums.StatisticFields.BEST_AVG_WITH_BEST_STRIKING, comp.thenComparing(data -> data.strikeRate, Comparator.reverseOrder()));
         Comparator<IPLDAO> comp1 = Comparator.comparing(censusDAO -> censusDAO.run, Comparator.reverseOrder());
         this.sortBy.put(SortingEnums.StatisticFields.MAX_RUN_WITH_BEST_AVG, comp1.thenComparing(data -> data.battingAvg, Comparator.reverseOrder()));
+        this.sortBy.put(SortingEnums.StatisticFields.BOWLING_AVERAGE, Comparator.comparing(data -> data.bowlingAvg));
+
     }
 
     public int loadIPLData(IPLPlayers player, String csvFilePath) throws CricketLeagueAnalyserException {
