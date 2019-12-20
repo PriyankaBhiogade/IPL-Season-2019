@@ -29,6 +29,9 @@ public class CricketLeagueAnalyser {
         this.sortBy.put(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_4W_AND_5W, new ComparingFieldsForBowling().reversed().thenComparing(data -> data.strikeRate));
         Comparator<IPLDAO> comparingBowlingAvg = Comparator.comparing(censusDAO -> censusDAO.bowlingAvg);
         this.sortBy.put(SortingEnums.StatisticFields.BEST_BOWLING_AVERAGE_WITH_STRIKING_RATE, comparingBowlingAvg.thenComparing(data -> data.strikeRate));
+        Comparator<IPLDAO> comparingWickets = Comparator.comparing(censusDAO -> censusDAO.run, Comparator.reverseOrder());
+        this.sortBy.put(SortingEnums.StatisticFields.MAX_WICKETS_With_BEST_AVG, comparingWickets.thenComparing(data -> data.bowlingAvg));
+
 
     }
 

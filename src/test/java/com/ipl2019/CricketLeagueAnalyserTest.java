@@ -267,4 +267,16 @@ public class CricketLeagueAnalyserTest {
         } catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenCricketLeagueWicketsCsvFile_WhenFileCorrect_ShouldReturnBestMaximumWicketsWithBestAvg() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadIPLData(IPLPlayers.BOWLER, IPL_WKTS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.MAX_WICKETS_With_BEST_AVG);
+            IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
+            Assert.assertEquals("Suresh Raina", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }

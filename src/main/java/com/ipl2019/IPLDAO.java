@@ -11,6 +11,8 @@ public class IPLDAO {
     public double economy;
     public int wickets_4;
     public int wickets_5;
+    public int totalWickets;
+
 
     public IPLDAO(IPLBatsmanCSV runCSV) {
         this.player = runCSV.player;
@@ -29,5 +31,6 @@ public class IPLDAO {
         this.economy = wiktsCSV.economy;
         this.wickets_4 = wiktsCSV.wickets_4;
         this.wickets_5 = wiktsCSV.wickets_5;
+        this.totalWickets = wiktsCSV.wickets;
     }
 }

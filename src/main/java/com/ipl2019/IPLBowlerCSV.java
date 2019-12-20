@@ -22,6 +22,9 @@ public class IPLBowlerCSV {
     @CsvBindByName(column = "5w")
     public int wickets_5;
 
+    @CsvBindByName(column = "Wkts")
+    public int wickets;
+
     public IPLBowlerCSV() {
     }
 }
