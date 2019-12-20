@@ -2,7 +2,7 @@ package com.ipl2019;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class IPLWiktsCSV {
+public class IPLBowlerCSV {
 
     @CsvBindByName(column = "PLAYER")
     public String player;
@@ -13,6 +13,6 @@ public class IPLWiktsCSV {
     @CsvBindByName(column = "SR")
     public double strikeRate;
 
-    public IPLWiktsCSV() {
+    public IPLBowlerCSV() {
     }
 }

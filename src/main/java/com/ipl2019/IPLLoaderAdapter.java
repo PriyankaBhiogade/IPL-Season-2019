@@ -27,13 +27,13 @@ public abstract class IPLLoaderAdapter {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCsvFileIterator(reader, iplCSVClass);
             Iterable<E> csvIterable = () -> csvFileIterator;
-            if (iplCSVClass.getName().equals("com.ipl2019.IPLRunsCSV")) {
+            if (iplCSVClass.getName().equals("com.ipl2019.IPLBatsmanCSV")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
-                        .map(IPLRunsCSV.class::cast)
+                        .map(IPLBatsmanCSV.class::cast)
                         .forEach(iplCSV -> iplMap.put(iplCSV.player, new IPLDAO(iplCSV)));
-            } else if (iplCSVClass.getName().equals("com.ipl2019.IPLWiktsCSV")) {
+            } else if (iplCSVClass.getName().equals("com.ipl2019.IPLBowlerCSV")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
-                        .map(IPLWiktsCSV.class::cast)
+                        .map(IPLBowlerCSV.class::cast)
                         .forEach(iplCSV -> iplMap.put(iplCSV.player, new IPLDAO(iplCSV)));
             }
             return iplMap;

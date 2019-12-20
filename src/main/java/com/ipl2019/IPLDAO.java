@@ -8,7 +8,7 @@ public class IPLDAO {
     public int six;
     public int four;
 
-    public IPLDAO(IPLRunsCSV runCSV) {
+    public IPLDAO(IPLBatsmanCSV runCSV) {
         this.player = runCSV.player;
         this.run = runCSV.run;
         this.battingAvg = runCSV.avg;
@@ -17,7 +17,7 @@ public class IPLDAO {
         this.four = runCSV.four;
     }
 
-    public IPLDAO(IPLWiktsCSV wiktsCSV) {
+    public IPLDAO(IPLBowlerCSV wiktsCSV) {
         this.player = wiktsCSV.player;
         this.battingAvg = wiktsCSV.avg;
         this.strikeRate = wiktsCSV.strikeRate;

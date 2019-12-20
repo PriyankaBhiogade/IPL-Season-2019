@@ -1,5 +1,5 @@
 package com.ipl2019;
 
-public enum IPLPlayer {
+public enum IPLPlayers {
     BATSMAN,BOWLER
 }
