@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Map;
-
 public class CricketLeagueAnalyserTest {
 
     private static final String OLD_IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";

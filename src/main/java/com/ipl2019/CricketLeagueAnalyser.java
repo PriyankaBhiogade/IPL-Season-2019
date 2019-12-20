@@ -23,7 +23,7 @@ public class CricketLeagueAnalyser {
 
     public CricketLeagueAnalyser() {
         this.sortBy = new HashMap<>();
-        this.iplRunMap =new HashMap<>();
+        this.iplRunMap = new HashMap<>();
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.STRIKING_RATE, Comparator.comparing(data -> data.strikeRate, Comparator.reverseOrder()));
         this.sortBy.put(CricketAnalyserENUM.StatisticFields.MAX_SIX_AND_FOUR, new ComparingFields().reversed());
@@ -41,7 +41,7 @@ public class CricketLeagueAnalyser {
 
     public int loadILPWiktsData(String csvFilePath) throws CricketLeagueAnalyserException {
         iplRunMap = this.loadData(csvFilePath, IPLWiktsCSV.class);
-        return  iplRunMap.size();
+        return iplRunMap.size();
     }
 
     private <E> Map<String, IPLRunsDAO> loadData(String csvFilePath, Class<E> iplCSVClass) throws CricketLeagueAnalyserException {
@@ -67,7 +67,6 @@ public class CricketLeagueAnalyser {
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.ERROR_FROM_CSV_BUILDER);
         } catch (RuntimeException e) {
-            e.printStackTrace();
             throw new CricketLeagueAnalyserException(e.getMessage(),
                     CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE);
         }
