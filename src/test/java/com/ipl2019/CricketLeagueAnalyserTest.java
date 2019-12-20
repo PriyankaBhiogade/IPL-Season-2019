@@ -258,4 +258,25 @@ public class CricketLeagueAnalyserTest {
         } catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenCricketLeagueWiktsCsvFile_WhenFileWrong_ShouldThrowingException() {
+        CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+        try {
+            iplAnalyser.loadIPLData(IPLPlayers.BOWLER, IPL_WKTS_CSV_FILE_PATH);
+            iplAnalyser.getSortData(SortingEnums.StatisticFields.BOWLING_AVERAGE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.SOME_ISSUE_IN_FILE, e.type);
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueWiktsCsvFile_WhenFileNotLoaded_ShouldThrowingException() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.getSortData(SortingEnums.StatisticFields.BOWLING_AVERAGE);
+        } catch (CricketLeagueAnalyserException e) {
+            Assert.assertEquals(CricketLeagueAnalyserException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
 }
