@@ -2,7 +2,7 @@ package com.ipl2019;
 
 import java.util.Comparator;
 
-public class ComparingFields implements Comparator<IPLDAO> {
+public class ComparingFieldsForBatting implements Comparator<IPLDAO> {
 
     @Override
     public int compare(IPLDAO mostRun1, IPLDAO mostRun2) {

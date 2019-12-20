@@ -17,15 +17,19 @@ public class CricketLeagueAnalyser {
         this.iplRunMap = new HashMap<>();
         this.sortBy.put(SortingEnums.StatisticFields.BATTING_AVERAGE, Comparator.comparing(data -> data.battingAvg, Comparator.reverseOrder()));
         this.sortBy.put(SortingEnums.StatisticFields.BATSMAN_STRIKING_RATE, Comparator.comparing(data -> data.strikeRate, Comparator.reverseOrder()));
-        this.sortBy.put(SortingEnums.StatisticFields.MAX_SIX_AND_FOUR, new ComparingFields().reversed());
-        this.sortBy.put(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_SIX_AND_FOUR, new ComparingFields().reversed().thenComparing(data -> data.strikeRate));
-        Comparator<IPLDAO> comp = Comparator.comparing(censusDAO -> censusDAO.battingAvg, Comparator.reverseOrder());
-        this.sortBy.put(SortingEnums.StatisticFields.BEST_AVG_WITH_BEST_STRIKING, comp.thenComparing(data -> data.strikeRate, Comparator.reverseOrder()));
-        Comparator<IPLDAO> comp1 = Comparator.comparing(censusDAO -> censusDAO.run, Comparator.reverseOrder());
-        this.sortBy.put(SortingEnums.StatisticFields.MAX_RUN_WITH_BEST_AVG, comp1.thenComparing(data -> data.battingAvg, Comparator.reverseOrder()));
+        this.sortBy.put(SortingEnums.StatisticFields.MAX_SIX_AND_FOUR, new ComparingFieldsForBatting().reversed());
+        this.sortBy.put(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_SIX_AND_FOUR, new ComparingFieldsForBatting().reversed().thenComparing(data -> data.strikeRate));
+        Comparator<IPLDAO> comparingBattingAvg = Comparator.comparing(censusDAO -> censusDAO.battingAvg, Comparator.reverseOrder());
+        this.sortBy.put(SortingEnums.StatisticFields.BEST_AVG_WITH_BEST_STRIKING, comparingBattingAvg.thenComparing(data -> data.strikeRate, Comparator.reverseOrder()));
+        Comparator<IPLDAO> comparingRuns = Comparator.comparing(censusDAO -> censusDAO.run, Comparator.reverseOrder());
+        this.sortBy.put(SortingEnums.StatisticFields.MAX_RUN_WITH_BEST_AVG, comparingRuns.thenComparing(data -> data.battingAvg, Comparator.reverseOrder()));
         this.sortBy.put(SortingEnums.StatisticFields.BOWLING_AVERAGE, Comparator.comparing(data -> data.bowlingAvg));
         this.sortBy.put(SortingEnums.StatisticFields.BOWLER_STRIKING_RATE, Comparator.comparing(data -> data.strikeRate));
         this.sortBy.put(SortingEnums.StatisticFields.BOWLER_BEST_ECONOMY, Comparator.comparing(data -> data.economy));
+        this.sortBy.put(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_4W_AND_5W, new ComparingFieldsForBowling().reversed().thenComparing(data -> data.strikeRate));
+        Comparator<IPLDAO> comparingBowlingAvg = Comparator.comparing(censusDAO -> censusDAO.bowlingAvg);
+        this.sortBy.put(SortingEnums.StatisticFields.BEST_BOWLING_AVERAGE_WITH_STRIKING_RATE, comparingBowlingAvg.thenComparing(data -> data.strikeRate));
+
     }
 
     public int loadIPLData(IPLPlayers player, String csvFilePath) throws CricketLeagueAnalyserException {

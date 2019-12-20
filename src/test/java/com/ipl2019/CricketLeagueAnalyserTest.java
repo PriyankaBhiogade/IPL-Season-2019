@@ -243,4 +243,28 @@ public class CricketLeagueAnalyserTest {
         } catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenCricketLeagueWicketsCsvFile_WhenFileCorrect_ShouldReturnBestStrikingRateWith5wAnd4w() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadIPLData(IPLPlayers.BOWLER, IPL_WKTS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_4W_AND_5W);
+            IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
+            Assert.assertEquals("Kagiso Rabada", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueWicketsCsvFile_WhenFileCorrect_ShouldReturnBestBowlingAverageWithBestStrikingRate() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadIPLData(IPLPlayers.BOWLER, IPL_WKTS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_BOWLING_AVERAGE_WITH_STRIKING_RATE);
+            IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
+            Assert.assertEquals("Suresh Raina", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }
