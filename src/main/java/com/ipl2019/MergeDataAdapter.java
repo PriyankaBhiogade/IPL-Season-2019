@@ -1,7 +1,6 @@
 package com.ipl2019;
 
 import java.util.Map;
-import java.util.stream.StreamSupport;
 
 public class MergeDataAdapter extends IPLLoaderAdapter {
 

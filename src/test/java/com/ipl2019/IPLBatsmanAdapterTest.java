@@ -21,6 +21,7 @@ public class IPLBatsmanAdapterTest {
             Map<String, IPLDAO> numOFRecord = iplRunLoader.loadData(IPL_RUNS_CSV_FILE_PATH);
             Assert.assertEquals(100, numOFRecord.size());
         } catch (CricketLeagueAnalyserException e) {
+            e.printStackTrace();
         }
     }
 

@@ -9,9 +9,10 @@ public class CricketLeagueAnalyserTest {
     private static final String IPL_RUNS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
     private static final String IPL_RUNS_CSV_FILE_PATH_WITH_WRONG_FILE = "IPL2019FactsheetMostRuns123.csv";
     private static final String IPL_RUNS_CSV_FILE_PATH_WITH_DELIMITER_ERR = "./src/test/resources/IPL2019FactsheetMostRunsWithDelimiterErr.csv";
-    private static final String IPL_RUNS_CSV_FILE_PATH_WITH_HEADER_ERR = "./src/test/resources/IPL2019FactsheetMostRunsWithHeaderError.csv";
     private static final String EMPTY_FILE_PATH = "./src/test/resources/EmptyFile.csv";
     private static final String IPL_WKTS_CSV_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
+    private static final String sampleRun = "./src/test/resources/SampleRuns.csv";
+    private static final String samplewkts = "./src/test/resources/SampleWkts.csv";
 
     @Test
     public void givenCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnTopBatsmanAvg() {
@@ -276,6 +277,18 @@ public class CricketLeagueAnalyserTest {
             String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.MAX_WICKETS_With_BEST_AVG);
             IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
             Assert.assertEquals("Suresh Raina", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueWicketsCsvFileAndCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnBestMaximumWicketsWithBestAvg() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadIPLData(IPLPlayers.MERGE_BOTH, sampleRun, samplewkts);
+            String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_BATTING_AVG_AND_BOWLING_AVG);
+            IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
+            Assert.assertEquals("Andre Russell", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
         }
     }

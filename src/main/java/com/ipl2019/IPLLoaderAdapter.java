@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public abstract class IPLLoaderAdapter {
-    public abstract Map<String, IPLDAO> loadData(String csvFilePath) throws CricketLeagueAnalyserException;
+    public abstract Map<String, IPLDAO> loadData(String... csvFilePath) throws CricketLeagueAnalyserException;
 
     protected <E> Map<String, IPLDAO> loadData(Class<E> iplCSVClass, String csvFilePath) throws CricketLeagueAnalyserException {
         Map<String, IPLDAO> iplMap = new HashMap<>();

@@ -7,6 +7,8 @@ public class GetPlayer {
             return new IPLBatsmanAdapter();
         else if (player.equals(IPLPlayers.BOWLER))
             return new IPLBowlerAdapter();
+        else if (player.equals(IPLPlayers.MERGE_BOTH))
+            return new MergeDataAdapter();
         else
             throw new CricketLeagueAnalyserException("Incorrect Field", CricketLeagueAnalyserException.ExceptionType.INVALID_TYPE);
     }
