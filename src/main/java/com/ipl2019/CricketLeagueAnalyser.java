@@ -31,7 +31,8 @@ public class CricketLeagueAnalyser {
         this.sortBy.put(SortingEnums.StatisticFields.BEST_BOWLING_AVERAGE_WITH_STRIKING_RATE, comparingBowlingAvg.thenComparing(data -> data.batsmanStrikeRate));
         Comparator<IPLDAO> comparingWickets = Comparator.comparing(censusDAO -> censusDAO.run, Comparator.reverseOrder());
         this.sortBy.put(SortingEnums.StatisticFields.MAX_WICKETS_With_BEST_AVG, comparingWickets.thenComparing(data -> data.bowlingAvg));
-        this.sortBy.put(SortingEnums.StatisticFields.BEST_BATTING_AVG_AND_BOWLING_AVG, new ComparingFields());
+        this.sortBy.put(SortingEnums.StatisticFields.BEST_BATTING_AVG_AND_BOWLING_AVG, new ComparingFieldsForBestBattingBowlingAvg());
+        this.sortBy.put(SortingEnums.StatisticFields.BEST_CRICKETER, new ComparingFieldsForBestCricketer());
     }
 
     public int loadIPLData(IPLPlayers player, String... csvFilePath) throws CricketLeagueAnalyserException {

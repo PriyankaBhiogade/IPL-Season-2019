@@ -22,6 +22,4 @@ public class IPLBatsmanCSV {
     @CsvBindByName(column = "SR",required = true)
     public double strikeRate;
 
-    public IPLBatsmanCSV() {
-    }
 }

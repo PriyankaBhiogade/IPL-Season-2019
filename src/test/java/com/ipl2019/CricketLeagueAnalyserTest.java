@@ -228,7 +228,7 @@ public class CricketLeagueAnalyserTest {
             iplAnalyser.loadIPLData(IPLPlayers.BOWLER, IPL_WKTS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BOWLER_STRIKING_RATE);
             IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
-            Assert.assertEquals("Suresh Raina", censusCSV[0].player);
+            Assert.assertEquals("Umesh Yadav", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
         }
     }
@@ -252,7 +252,7 @@ public class CricketLeagueAnalyserTest {
             iplAnalyser.loadIPLData(IPLPlayers.BOWLER, IPL_WKTS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_STRIKING_RATE_WITH_4W_AND_5W);
             IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
-            Assert.assertEquals("Kagiso Rabada", censusCSV[0].player);
+            Assert.assertEquals("Lasith Malinga", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
         }
     }
@@ -285,11 +285,24 @@ public class CricketLeagueAnalyserTest {
     public void givenCricketLeagueWicketsCsvFileAndCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnBestMaximumWicketsWithBestAvg() {
         try {
             CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
-            iplAnalyser.loadIPLData(IPLPlayers.MERGE_BOTH, sampleRun, samplewkts);
+            iplAnalyser.loadIPLData(IPLPlayers.MERGE_BOTH, IPL_RUNS_CSV_FILE_PATH, IPL_WKTS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_BATTING_AVG_AND_BOWLING_AVG);
             IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
             Assert.assertEquals("Andre Russell", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenCricketLeagueWicketsCsvFileAndCricketLeagueRunsCsvFile_WhenFileCorrect_ShouldReturnBestCricketerName() {
+        try {
+            CricketLeagueAnalyser iplAnalyser = new CricketLeagueAnalyser();
+            iplAnalyser.loadIPLData(IPLPlayers.MERGE_BOTH, IPL_RUNS_CSV_FILE_PATH, IPL_WKTS_CSV_FILE_PATH);
+            String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_CRICKETER);
+            IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
+            Assert.assertEquals("Marcus Stoinis", censusCSV[0].player);
+        } catch (CricketLeagueAnalyserException e) {
+            e.printStackTrace();
         }
     }
 }
