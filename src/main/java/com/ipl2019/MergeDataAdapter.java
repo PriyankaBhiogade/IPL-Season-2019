@@ -10,7 +10,10 @@ public class MergeDataAdapter extends IPLLoaderAdapter {
         Map<String, IPLDAO> bowlingMap = super.loadData(IPLBowlerCSV.class, csvFilePath[1]);
         bowlingMap.values().stream()
                 .filter(iplRanData -> battingMap.get(iplRanData.player) != null)
-                .forEach(iplData -> battingMap.get(iplData.player).bowlingAvg = iplData.bowlingAvg);
+                .forEach(iplData -> {
+                    battingMap.get(iplData.player).bowlingAvg = iplData.bowlingAvg;
+                    battingMap.get(iplData.player).totalWickets = iplData.totalWickets;
+                });
         return battingMap;
     }
 }

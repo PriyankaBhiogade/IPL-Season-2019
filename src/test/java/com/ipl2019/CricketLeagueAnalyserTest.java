@@ -300,7 +300,7 @@ public class CricketLeagueAnalyserTest {
             iplAnalyser.loadIPLData(IPLPlayers.MERGE_BOTH, IPL_RUNS_CSV_FILE_PATH, IPL_WKTS_CSV_FILE_PATH);
             String sortedData = iplAnalyser.getSortData(SortingEnums.StatisticFields.BEST_CRICKETER);
             IPLBowlerCSV[] censusCSV = new Gson().fromJson(sortedData, IPLBowlerCSV[].class);
-            Assert.assertEquals("Marcus Stoinis", censusCSV[0].player);
+            Assert.assertEquals("Hardik Pandya", censusCSV[0].player);
         } catch (CricketLeagueAnalyserException e) {
             e.printStackTrace();
         }
