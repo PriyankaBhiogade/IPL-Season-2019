@@ -13,7 +13,7 @@ public class CricketLeagueAnalyser {
     private IPLPlayers player;
     private IPLLoaderAdapter censusAdapter;
 
-    public void setIPLAdapter(IPLLoaderAdapter iplAdapter){
+    public void setIPLAdapter(IPLLoaderAdapter iplAdapter) {
         this.censusAdapter = iplAdapter;
     }
 

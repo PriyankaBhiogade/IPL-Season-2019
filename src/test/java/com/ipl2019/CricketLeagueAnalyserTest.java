@@ -18,7 +18,7 @@ public class CricketLeagueAnalyserTest {
     CricketLeagueAnalyser iplAnalyser;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         iplAnalyser = new CricketLeagueAnalyser();
     }
 

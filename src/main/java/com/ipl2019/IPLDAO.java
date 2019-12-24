@@ -15,11 +15,15 @@ public class IPLDAO {
     public int totalWickets;
 
 
-    public IPLDAO(String player, int run, int totalWickets) {
+    public IPLDAO(String player, int run, double avg, double strikeRate) {
         this.player = player;
         this.run = run;
-        this.totalWickets = totalWickets;
+        this.battingAvg = avg;
+        this.bowlingAvg = avg;
+        this.batsmanStrikeRate = strikeRate;
+        this.bowlerStrikeRate = strikeRate;
     }
+
 
     public IPLDAO(IPLBatsmanCSV runCSV) {
         this.player = runCSV.player;
