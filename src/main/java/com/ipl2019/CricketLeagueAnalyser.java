@@ -11,6 +11,11 @@ public class CricketLeagueAnalyser {
     Map<SortingEnums.StatisticFields, Comparator<IPLDAO>> sortBy = null;
     Map<String, IPLDAO> iplRunMap = null;
     private IPLPlayers player;
+    private IPLLoaderAdapter censusAdapter;
+
+    public void setIPLAdapter(IPLLoaderAdapter iplAdapter){
+        this.censusAdapter = iplAdapter;
+    }
 
     public CricketLeagueAnalyser() {
         this.sortBy = new HashMap<>();
@@ -37,8 +42,7 @@ public class CricketLeagueAnalyser {
 
     public int loadIPLData(IPLPlayers player, String... csvFilePath) throws CricketLeagueAnalyserException {
         this.player = player;
-        IPLLoaderAdapter censusAdapter = GetPlayer.getPlayer(player);
-        iplRunMap = censusAdapter.loadData(csvFilePath);
+        iplRunMap = this.censusAdapter.loadData(csvFilePath);
         return iplRunMap.size();
     }
 
